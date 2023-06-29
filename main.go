@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 var serverID string
@@ -17,10 +19,11 @@ func main() {
 	serverID = strconv.Itoa(rand.Intn(100) + 100)
 	logger := log.New(os.Stdout, "", log.Lmicroseconds)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3030"
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error load env file")
 	}
+	port := os.Getenv("PORT")
 
 	logger.Printf("server %s starting on port %s ...", serverID, port)
 
